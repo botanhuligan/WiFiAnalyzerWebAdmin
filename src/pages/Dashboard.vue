@@ -38,7 +38,7 @@ export default {
       return name => this.items.filter(query => query.status.name === name)
     },
     shouldOffsetAdded () {
-      return this.items.length > 0
+      return this.items && this.items.length > 0
     },
     todoListModel: {
       get () {

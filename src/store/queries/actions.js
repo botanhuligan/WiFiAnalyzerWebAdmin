@@ -4,10 +4,10 @@ import * as constants from '../../constants'
 export async function getQueriesData ({ dispatch, commit }) {
   try {
     const resp = await axios.get(constants.GET_QUERIES_URL)
-    const { results } = resp.data
-    console.debug('data queries', results)
-    commit('setQueries', results)
-    return results
+    const { data } = resp
+    console.debug('data queries', data)
+    commit('setQueries', data)
+    return data
   } catch (err) {
     await dispatch('common/errorMessage', err, { root: true })
   }

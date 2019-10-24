@@ -6,10 +6,10 @@
       <div class="row text-caption">Дата создания</div>
       <div class="row"><WDate :timestamp="info.timestamp"/></div>
       <div class="row text-caption">Категория</div>
-      <div class="row"><q-badge :color="labelColor">{{ info.label.title }}</q-badge></div>
+      <div class="row"><q-badge :color="labelColor">{{ info.label && info.label.title }}</q-badge></div>
       <q-separator color="grey"/>
       <div class="row text-caption">Отправитель</div>
-      <div dense flat class="text-lowercase text-capitalize text-blue text-underscore">{{ info.author.first_name || 'Нет данных' }}</div>
+      <div dense flat class="text-lowercase text-capitalize text-blue text-underscore">{{ info.author && info.author.first_name || 'Нет данных' }}</div>
       <div class="row text-caption">Контакты</div>
       <div class="row">{{ info.contacts || 'Нет данных' }}</div>
     </q-card-section>
@@ -27,6 +27,9 @@ export default {
   },
   computed: {
     labelColor () {
+      if (!this.info.label) {
+        return 'grey'
+      }
       if (this.info.label.name === 'to_do') {
         return 'red'
       }
