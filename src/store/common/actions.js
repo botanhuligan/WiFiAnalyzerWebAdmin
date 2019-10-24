@@ -11,7 +11,7 @@ export async function getLabelsData ({ dispatch, commit }) {
   commit('setLabels', labels.data)
 }
 /* Получение списка labels */
-export async function getStatuses ({ dispatch, commit }) {
+export async function getStatusesData ({ dispatch, commit }) {
   const statuses = axios.get(constants.GET_STATUSES_URL)
   commit('setStatuses', statuses.data)
 }

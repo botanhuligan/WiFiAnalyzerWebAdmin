@@ -2,7 +2,7 @@
   <div>
     <div class="row items-between relative-position">
       <div class="col q-ma-md">
-        <q-btn dense flat class="text-lowercase text-capitalize" v-go-back="'/queries'">Назад</q-btn>
+        <q-btn dense flat class="text-lowercase text-capitalize" @click="handleHistoryBack">Назад</q-btn>
       </div>
       <div class="col absolute-right">
 <!--        <q-btn color="blue" size="sm" class="col" dense>Начать</q-btn>-->
@@ -60,7 +60,12 @@ export default {
     }
   },
   methods: {
-    ...mapActions('queries', ['getQuery'])
+    ...mapActions('queries', ['getQuery']),
+    handleHistoryBack () {
+      if (window.history.length > 1) {
+        window.history.back()
+      }
+    }
   }
 }
 </script>

@@ -1,24 +1,23 @@
 import axios from 'axios'
 import * as constants from '../../constants'
 
-export async function getQueries ({ dispatch, commit }) {
+export async function getQueriesData ({ dispatch, commit }) {
   try {
     const resp = await axios.get(constants.GET_QUERIES_URL)
     const { results } = resp.data
     console.debug('data queries', results)
-    commit('setData', results)
+    commit('setQueries', results)
     return results
   } catch (err) {
     await dispatch('common/errorMessage', err, { root: true })
   }
 }
 
-export async function getData ({ dispatch, commit }) {
+export async function updateQueryStatus ({ dispatch, commit }, payload) {
+  const { queryId, status } = payload
   try {
-    const resp = await axios.get(constants.GET_QUERIES_URL)
-    const { results } = resp.data
-    commit('setData', results)
-    return results
+    // const resp = await axios.get(constants.GET_QUERIES_URL)
+    commit('updateQuery', { queryId, status })
   } catch (err) {
     await dispatch('common/errorMessage', err, { root: true })
   }
@@ -26,9 +25,9 @@ export async function getData ({ dispatch, commit }) {
 
 export async function getQuery ({ dispatch, commit }, queryId) {
   try {
-    // const resp = await axios.get(GET_QUERIES_URL, queryId)
-    commit('setActiveQuery', constants.MOCK_QUERY_DATA)
-    return constants.MOCK_QUERY_DATA
+    const { data } = await axios.get(`${constants.GET_LABEL_URL}/${queryId}`)
+    commit('setActiveQuery', data)
+    return data
   } catch (err) {
     await dispatch('common/errorMessage', err, { root: true })
   }

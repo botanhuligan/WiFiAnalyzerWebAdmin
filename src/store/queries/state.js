@@ -1,5 +1,5 @@
 export default {
-  data: [],
+  queries: [],
   activeQuery: {},
   todoList: [],
   inProgressList: [],

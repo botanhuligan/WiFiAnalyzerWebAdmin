@@ -8,6 +8,9 @@
 export default {
   name: 'WDate',
   props: ['timestamp'],
+  mounted () {
+    console.debug('wdate', this.timestamp)
+  },
   computed: {
     formattedDate () {
       const date = new Date()

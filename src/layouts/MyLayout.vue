@@ -19,12 +19,11 @@ export default {
   computed: {
     // ...mapState('common', ['leftDrawerOpen'])
   },
-  async created () {
+  async mounted () {
     await this.getLabelsData()
-    const queries = await this.getQueries()
+    await this.getStatusesData()
+    const queries = await this.getQueriesData()
     await this.updateLists(queries)
-  },
-  mounted () {
   },
   data () {
     return {
@@ -32,8 +31,8 @@ export default {
     }
   },
   methods: {
-    ...mapActions('common', ['toggleLeftMenuOpened', 'getLabelsData']),
-    ...mapActions('queries', ['getQueries', 'updateLists'])
+    ...mapActions('common', ['toggleLeftMenuOpened', 'getLabelsData', 'getStatusesData']),
+    ...mapActions('queries', ['getQueriesData', 'updateLists'])
   }
 }
 </script>

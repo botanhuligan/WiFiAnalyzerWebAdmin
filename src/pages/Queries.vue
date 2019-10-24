@@ -12,7 +12,7 @@ import { mapActions } from 'vuex'
 export default {
   name: 'Queries',
   async mounted () {
-    this.queries = await this.getQueries()
+    this.queries = await this.getQueriesData()
   },
   data () {
     return {
@@ -21,7 +21,7 @@ export default {
   },
   components: { WTable },
   methods: {
-    ...mapActions('queries', ['getQueries'])
+    ...mapActions('queries', ['getQueriesData'])
   }
 }
 </script>

@@ -1,6 +1,10 @@
 /* Получение данных */
-export function setData (state, data) {
-  state.data = data
+export function setQueries (state, queries) {
+  state.queries = queries
+}
+/* Получение данных */
+export function updateQuery (state, { queryId, status }) {
+  state.queries.find(query => query.id === queryId).status.name = status
 }
 /* Установка активного запроса */
 export function setActiveQuery (state, data) {

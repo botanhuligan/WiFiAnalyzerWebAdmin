@@ -1,3 +1,3 @@
-export function getterActiveQuery (state) {
-  return state.activeQuery
+export function getQueries (state) {
+  return state.queries
 }

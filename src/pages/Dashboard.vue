@@ -1,78 +1,44 @@
 <template>
   <q-page padding>
-    <div class="row drag-container">
-      <div
-        :status="status.title"
-        class="col-4 drag-column q-pa-md" :key="key" v-for="(status, key) in statuses">
-        <div class="column">
-          <div class="q-pa-md drag-inner-list">{{ status.title }}</div>
-          <div class="col cards-column q-pa-md rounded-borders" v-bind:class="{'offseted': shouldOffsetAdded}">
-            <draggable
-              class="list-group"
-              v-model="todoListModel"
-              v-bind="dragOptions"
-              :move="onMove" @start="isDragging=true" @end="isDragging=false"
-              tag="div">
-              <transition-group type="transition" :name="'flip-list'">
-                <WDashboardCard v-for="(query, key) in filteredTasks(status.name)" :key="key" :query="query" class="drag-item"/>
-              </transition-group>
-            </draggable>
+    <div class="row drag-container" v-drag-and-drop:options="options">
+        <div class="column col-4 drag-column q-pa-md">
+          <div class="q-pa-md">Заявки</div>
+          <div class="col cards-column q-pa-md rounded-borders  drag-inner-list" v-bind:class="{'offseted': shouldOffsetAdded}">
+                <WDashboardCard v-for="(query, key) in filteredTasks('to_do')" :key="key" :query="query" class="drag-item" :id="query.id"/>
           </div>
-          <div class="col cards-column q-pa-md rounded-borders" v-bind:class="{'offseted': shouldOffsetAdded}">
-            <draggable
-              class="list-group"
-              v-model="inProgressListModel"
-              v-bind="dragOptions"
-              :move="onMove" @start="isDragging=true" @end="isDragging=false"
-              tag="div">
-              <transition-group type="transition" :name="'flip-list'">
-                <WDashboardCard v-for="(query, key) in filteredTasks(status.name)" :key="key" :query="query" class="drag-item"/>
-              </transition-group>
-            </draggable>
+        </div>
+        <div class="column col-4 drag-column q-pa-md">
+          <div class="q-pa-md">В работе</div>
+          <div class="col cards-column q-pa-md rounded-borders  drag-inner-list" v-bind:class="{'offseted': shouldOffsetAdded}">
+                <WDashboardCard v-for="(query, key) in filteredTasks('doing')" :key="key" :query="query" class="drag-item" :id="query.id"/>
           </div>
-          <div class="col cards-column q-pa-md rounded-borders" v-bind:class="{'offseted': shouldOffsetAdded}">
-            <draggable
-              class="list-group"
-              v-model="doneListModel"
-              v-bind="dragOptions"
-              :move="onMove" @start="isDragging=true" @end="isDragging=false"
-              tag="div">
-              <transition-group type="transition" :name="'flip-list'">
-                <WDashboardCard v-for="(query, key) in filteredTasks(status.name)" :key="key" :query="query" class="drag-item"/>
-              </transition-group>
-            </draggable>
+        </div>
+        <div class="column col-4 drag-column q-pa-md">
+          <div class="q-pa-md">Выполнено</div>
+          <div class="col cards-column q-pa-md rounded-borders  drag-inner-list" v-bind:class="{'offseted': shouldOffsetAdded}">
+                <WDashboardCard v-for="(query, key) in filteredTasks('done')" :key="key" :query="query" class="drag-item" :id="query.id"/>
           </div>
         </div>
       </div>
-    </div>
   </q-page>
 </template>
 
 <script>
-import draggable from 'vuedraggable'
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState, mapGetters } from 'vuex'
 import WDashboardCard from '../components/WDashboardCard'
 export default {
   name: 'Dashboard',
   components: {
-    WDashboardCard,
-    draggable
+    WDashboardCard
   },
   computed: {
     ...mapState('queries', ['data', 'todoList', 'inProgressList', 'doneList']),
+    ...mapGetters('queries', ['getQueries']),
     filteredTasks () {
-      return groupId => this.items.filter(query => query.status === groupId)
+      return name => this.items.filter(query => query.status.name === name)
     },
     shouldOffsetAdded () {
       return this.items.length > 0
-    },
-    dragOptions () {
-      return {
-        animation: 0,
-        group: 'description',
-        disabled: !this.editable,
-        ghostClass: 'ghost'
-      }
     },
     todoListModel: {
       get () {
@@ -97,15 +63,16 @@ export default {
       set (value) {
         this.updateDoneList(value)
       }
+    },
+    items () {
+      return this.getQueries
     }
   },
   async mounted () {
-    this.items = await this.getQueries()
     console.debug('data on dashboard page', this.items)
   },
   data () {
     return {
-      items: [],
       statuses: [{
         name: 'to_do',
         title: 'Заявки',
@@ -122,11 +89,7 @@ export default {
       options: {
         dropzoneSelector: '.drag-inner-list',
         draggableSelector: '.drag-item',
-        onDrop (e) {
-          const targetGroupId = parseInt(e.droptarget.dataset.id)
-          const itemIds = e.items.map(item => parseInt(item.dataset.id))
-          this.updateItemsWithNewGroupId(itemIds, targetGroupId)
-        }
+        onDrop: (e) => this.onDrop(e)
       },
       list: [],
       myArray: 'myArray',
@@ -135,20 +98,19 @@ export default {
     }
   },
   methods: {
-    ...mapActions('queries', ['getQueries', 'updateTodoList', 'updateInProgressList', 'updateDoneList']),
-    updateItemsWithNewGroupId (itemsIds, groupId) {
-      this.items
-        .filter(item => itemsIds.indexOf(item.id) >= 0)
-        .forEach(item => {
-          item.groupId = groupId
-        })
-    },
+    ...mapActions('queries', ['updateTodoList', 'updateInProgressList', 'updateDoneList', 'updateQueryStatus']),
     onMove ({ relatedContext, draggedContext }) {
       const relatedElement = relatedContext.element
       const draggedElement = draggedContext.element
       return (
         (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
       )
+    },
+    onDrop (e) {
+      console.log({
+        event: e,
+        el: this.$el
+      })
     }
   },
   watch: {
