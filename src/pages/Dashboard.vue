@@ -3,19 +3,22 @@
     <div class="row drag-container" v-drag-and-drop:options="options">
         <div class="column col-4 drag-column q-pa-md">
           <div class="q-pa-md">Заявки</div>
-          <div class="col cards-column q-pa-md rounded-borders  drag-inner-list" v-bind:class="{'offseted': shouldOffsetAdded}">
-                <WDashboardCard v-for="(query, key) in filteredTasks('to_do')" :key="key" :query="query" class="drag-item" :id="query.id"/>
+          <div class="col cards-column q-pa-md rounded-borders  drag-inner-list to_do" v-bind:class="{'offseted': shouldOffsetAdded}">
+                <WDashboardCard
+                  v-for="(query, key) in filteredTasks('to_do')"
+                  :key="key" :query="query" class="drag-item" :id="query.id"
+                />
           </div>
         </div>
         <div class="column col-4 drag-column q-pa-md">
           <div class="q-pa-md">В работе</div>
-          <div class="col cards-column q-pa-md rounded-borders  drag-inner-list" v-bind:class="{'offseted': shouldOffsetAdded}">
+          <div class="col cards-column q-pa-md rounded-borders  drag-inner-list doing" v-bind:class="{'offseted': shouldOffsetAdded}">
                 <WDashboardCard v-for="(query, key) in filteredTasks('doing')" :key="key" :query="query" class="drag-item" :id="query.id"/>
           </div>
         </div>
         <div class="column col-4 drag-column q-pa-md">
           <div class="q-pa-md">Выполнено</div>
-          <div class="col cards-column q-pa-md rounded-borders  drag-inner-list" v-bind:class="{'offseted': shouldOffsetAdded}">
+          <div class="col cards-column q-pa-md rounded-borders  drag-inner-list done" v-bind:class="{'offseted': shouldOffsetAdded}">
                 <WDashboardCard v-for="(query, key) in filteredTasks('done')" :key="key" :query="query" class="drag-item" :id="query.id"/>
           </div>
         </div>
@@ -40,30 +43,6 @@ export default {
     shouldOffsetAdded () {
       return this.items && this.items.length > 0
     },
-    todoListModel: {
-      get () {
-        return this.todoList
-      },
-      set (value) {
-        this.updateTodoList(value)
-      }
-    },
-    inProgressListModel: {
-      get () {
-        return this.inProgressList
-      },
-      set (value) {
-        this.updateInProgressList(value)
-      }
-    },
-    doneListModel: {
-      get () {
-        return this.doneList
-      },
-      set (value) {
-        this.updateDoneList(value)
-      }
-    },
     items () {
       return this.getQueries
     }
@@ -78,7 +57,7 @@ export default {
         title: 'Заявки',
         list: []
       }, {
-        name: 'active',
+        name: 'doing',
         title: 'В работе',
         list: []
       }, {
@@ -98,18 +77,22 @@ export default {
     }
   },
   methods: {
-    ...mapActions('queries', ['updateTodoList', 'updateInProgressList', 'updateDoneList', 'updateQueryStatus']),
-    onMove ({ relatedContext, draggedContext }) {
-      const relatedElement = relatedContext.element
-      const draggedElement = draggedContext.element
-      return (
-        (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
-      )
-    },
-    onDrop (e) {
+    ...mapActions('queries', ['updateQueryStatus']),
+    async onDrop (e) {
       console.log({
         event: e,
         el: this.$el
+      })
+      const dropTargetStatus = await this.statuses.find(status => e.droptarget.className.indexOf(status.name) !== -1)
+      const idToUpdate = e.items[0].id
+      const updatableQuery = this.items.find(item => item.id === +idToUpdate)
+      console.debug(e.droptarget.className, dropTargetStatus, idToUpdate, updatableQuery)
+      /* FIXME достаем description и label из объекта, чтобы отправлять на сервер полный объект */
+      this.updateQueryStatus({
+        queryId: idToUpdate,
+        description: updatableQuery.description,
+        status: dropTargetStatus.name,
+        label: updatableQuery.label && updatableQuery.label.name
       })
     }
   },

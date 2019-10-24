@@ -33,11 +33,11 @@
           <q-td key="author" :props="props">{{ props.row.author.first_name }}</q-td>
           <q-td key="title" :props="props">{{ props.row.title }}</q-td>
           <q-td key="category" :props="props">
-            <q-badge color="amber" v-show=" props.row.label.name === 'unlabeled'">
-              {{ props.row.label.name }}
+            <q-badge :color="getLabelColor(props.row.label.name)" v-show="!!props.row.label.name">
+              {{ props.row.label.title }}
             </q-badge>
           </q-td>
-          <q-td key="status" :props="props">{{ props.row.status }}</q-td>
+          <q-td key="status" :props="props">{{ props.row.status.title }}</q-td>
         </q-tr>
         <q-tr v-show="props.expand" :props="props">
           <q-td colspan="100%">
@@ -52,9 +52,12 @@
 
 <script>
 import WDate from '../components/WDate'
+import * as constants from '../constants'
 export default {
   name: 'WTable',
   components: { WDate },
+  computed: {
+  },
   props: ['queries'],
   data () {
     return {
@@ -76,6 +79,20 @@ export default {
         { name: 'category', label: 'Категория', field: 'category' },
         { name: 'status', label: 'Статус', field: 'status' }
       ]
+    }
+  },
+  methods: {
+    getLabelColor (label) {
+      if (label.name === constants.TODO_STATUS) {
+        return 'red'
+      }
+      if (label.name === constants.DOING_STATUS) {
+        return 'orange'
+      }
+      if (label.name === constants.DONE_STATUS) {
+        return 'green'
+      }
+      return 'grey'
     }
   }
 }

@@ -14,6 +14,11 @@ const routes = [
         component: () => import('pages/Queries.vue')
       },
       {
+        path: '/archive',
+        name: 'archive',
+        component: () => import('pages/Archive.vue')
+      },
+      {
         path: '/:number',
         component: () => import('pages/Query.vue'),
         props: (route) => ({ query: route.query.number })

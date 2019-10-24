@@ -1,11 +1,26 @@
 <template>
   <q-page padding>
-    <!-- content -->
+    <WTable :queries="droppedQueries"/>
   </q-page>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import * as constants from '../constants'
+import WTable from '../components/WTable'
 export default {
-  // name: 'PageName',
+  name: 'Archive',
+  components: {
+    WTable
+  },
+  computed: {
+    ...mapGetters('queries', ['getQueries']),
+    queries () {
+      return this.getQueries
+    },
+    droppedQueries () {
+      return this.queries.filter(query => query.status.name === constants.DROP_STATUS)
+    }
+  }
 }
 </script>

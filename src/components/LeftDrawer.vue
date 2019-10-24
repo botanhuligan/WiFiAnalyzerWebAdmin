@@ -73,7 +73,8 @@ export default {
         {
           title: 'Архив',
           name: 'archive',
-          icon: 'archive'
+          icon: 'archive',
+          to: '/archive'
         },
         {
           title: 'Настройки',

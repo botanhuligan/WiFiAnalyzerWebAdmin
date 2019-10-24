@@ -2,11 +2,12 @@ export const GET_QUERIES_URL = '/api/ticket/'
 export const GET_LABELS_URL = '/api/ticket/label_list/'
 export const GET_LABEL_URL = '/api/ticket/'
 export const GET_STATUSES_URL = '/api/ticket/status_list/'
-export const POST_QUERY_URL = ''
+export const UPDATE_QUERIES_URL = '/api/ticket'
 export const UNLABELED_CATEGORY = 'unlabeled'
-export const TODO_CATEGORY = 'to_do'
-export const DOING_CATEGORY = 'doing'
-export const DONE_CATEGORY = 'done'
+export const TODO_STATUS = 'to_do'
+export const DOING_STATUS = 'doing'
+export const DONE_STATUS = 'done'
+export const DROP_STATUS = 'drop'
 
 export const MOCK_QUERY_DATA = {
   'id': 1,

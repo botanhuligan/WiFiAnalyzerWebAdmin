@@ -4,7 +4,7 @@ export function setQueries (state, queries) {
 }
 /* Получение данных */
 export function updateQuery (state, { queryId, status }) {
-  state.queries.find(query => query.id === queryId).status.name = status
+  state.queries.find(query => query.id === queryId).status = status
 }
 /* Установка активного запроса */
 export function setActiveQuery (state, data) {

@@ -20,14 +20,18 @@ export default {
     // ...mapState('common', ['leftDrawerOpen'])
   },
   async mounted () {
+    this.loading = true
     await this.getLabelsData()
     await this.getStatusesData()
-    const queries = await this.getQueriesData()
-    await this.updateLists(queries)
+    await this.getQueriesData()
+    this.loading = false
+    // const queries = await this.getQueriesData()
+    // await this.updateLists(queries)
   },
   data () {
     return {
-      search: ''
+      search: '',
+      loading: false
     }
   },
   methods: {
