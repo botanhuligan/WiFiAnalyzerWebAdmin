@@ -8,7 +8,8 @@ module.exports = function (ctx) {
     // https://quasar.dev/quasar-cli/cli-documentation/boot-files
     boot: [
       'i18n',
-      'axios'
+      'axios',
+      'draggable'
     ],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
@@ -32,7 +33,7 @@ module.exports = function (ctx) {
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
     framework: {
-      // iconSet: 'ionicons-v4', // Quasar icon set
+      // iconSet: 'material-icons-round', // Quasar icon set
       // lang: 'de', // Quasar language pack
 
       // Possible values for "all":
@@ -44,11 +45,18 @@ module.exports = function (ctx) {
       //            (not treeshaking Quasar; biggest bundle size; convenient)
       all: 'auto',
 
-      components: [],
-      directives: [],
+      components: [
+        // 'QTable',
+        // 'QInput'
+      ],
+      directives: [
+        'GoBack'
+      ],
 
       // Quasar plugins
-      plugins: []
+      plugins: [
+        'Notify'
+      ]
     },
 
     // https://quasar.dev/quasar-cli/cli-documentation/supporting-ie
@@ -82,7 +90,16 @@ module.exports = function (ctx) {
     devServer: {
       // https: true,
       // port: 8080,
-      open: true // opens browser window automatically
+      open: true, // opens browser window automatically
+      proxy: {
+        '/api/': {
+          target: 'http://172.30.14.153:8000/api/',
+          pathRewrite: {
+            '^/api': ''
+          },
+          changeOrigin: true
+        }
+      }
     },
 
     // animations: 'all', // --- includes all animations

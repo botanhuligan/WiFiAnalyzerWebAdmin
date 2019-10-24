@@ -1,10 +1,23 @@
-
 const routes = [
   {
     path: '/',
     component: () => import('layouts/MyLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Index.vue') }
+      {
+        path: 'dashboard',
+        name: 'dashboard',
+        component: () => import('pages/Dashboard.vue')
+      },
+      {
+        path: 'queries',
+        name: 'queries',
+        component: () => import('pages/Queries.vue')
+      },
+      {
+        path: '/:number',
+        component: () => import('pages/Query.vue'),
+        props: (route) => ({ query: route.query.number })
+      }
     ]
   }
 ]

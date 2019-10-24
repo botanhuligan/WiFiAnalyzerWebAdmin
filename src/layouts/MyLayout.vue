@@ -1,25 +1,6 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          @click="leftDrawerOpen = !leftDrawerOpen"
-          icon="menu"
-          aria-label="Menu"
-        />
-
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
-      </q-toolbar>
-    </q-header>
-
-    <LeftDrawer :leftDrawerOpen="leftDrawerOpen" />
+  <q-layout view="lHh Lpr lFf" class="my-layout">
+    <LeftDrawer :leftDrawerOpen="true" />
 
     <q-page-container>
       <router-view />
@@ -28,16 +9,36 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import LeftDrawer from '../components/LeftDrawer'
 export default {
   name: 'MyLayout',
   components: {
     LeftDrawer
   },
+  computed: {
+    // ...mapState('common', ['leftDrawerOpen'])
+  },
+  async created () {
+    await this.getLabelsData()
+    const queries = await this.getQueries()
+    await this.updateLists(queries)
+  },
+  mounted () {
+  },
   data () {
     return {
-      leftDrawerOpen: false
+      search: ''
     }
+  },
+  methods: {
+    ...mapActions('common', ['toggleLeftMenuOpened', 'getLabelsData']),
+    ...mapActions('queries', ['getQueries', 'updateLists'])
   }
 }
 </script>
+<style>
+  .my-layout {
+    background-color: #EAEEF3;
+  }
+</style>
