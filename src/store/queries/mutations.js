@@ -4,10 +4,10 @@ export function setQueries (state, queries) {
 }
 /* Получение данных */
 export function updateQuery (state, { queryId, status }) {
-  console.debug(state.queries, queryId)
   state.queries.forEach((query, index) => {
-    if (query.id === queryId) {
-      state.queries[index].status = status
+    if (query.id === +queryId) {
+      console.log('found')
+      state.queries[index].status = { status, title: status }
     }
   })
 }

@@ -86,13 +86,13 @@ export default {
       const idToUpdate = e.items[0].id
       const updatableQuery = this.items.find(item => item.id === +idToUpdate)
       /* FIXME достаем description и label из объекта, чтобы отправлять на сервер полный объект */
-      await this.updateQueryStatus({
+      this.items = await this.updateQueryStatus({
         queryId: idToUpdate,
         description: updatableQuery.description,
         status: dropTargetStatus.name,
         label: updatableQuery.label && updatableQuery.label.name
       })
-      // location.reload()
+      location.reload()
     }
   },
   watch: {

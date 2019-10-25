@@ -33,8 +33,8 @@
             <q-avatar size="56px" class="q-mb-sm">
               <img src="~assets/profile.png">
             </q-avatar>
-            <div class="text-weight-bold">Razvan Stoenescu</div>
-            <div>@rstoenescu</div>
+            <div class="text-weight-bold">David</div>
+            <div>@david</div>
           </div>
         </q-img>
     </q-drawer>
