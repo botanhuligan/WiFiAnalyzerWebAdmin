@@ -1,10 +1,5 @@
 <template>
   <div>
-    <div class="text-h6">Характеристики</div>
-    <div class="text-subtitle">SpeedTest</div>
-    <div class="text-h6">{{ points && points.speed_test }}</div>
-    <div class="text-subtitle">Качество сети</div>
-    <div class="text-h6">{{ points && points.speed_test }}</div>
     <q-table
       :data="points"
       :columns="columns"

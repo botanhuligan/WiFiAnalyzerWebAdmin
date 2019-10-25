@@ -35,7 +35,7 @@ export default {
     WDashboardCard
   },
   computed: {
-    ...mapState('queries', ['data', 'todoList', 'inProgressList', 'doneList']),
+    ...mapState('queries', ['queries', 'todoList', 'inProgressList', 'doneList']),
     ...mapGetters('queries', ['getQueries']),
     filteredTasks () {
       return name => this.items.filter(query => query.status.name === name)
@@ -43,8 +43,13 @@ export default {
     shouldOffsetAdded () {
       return this.items && this.items.length > 0
     },
-    items () {
-      return this.getQueries
+    items: {
+      get () {
+        return this.getQueries
+      },
+      set () {
+        return false
+      }
     }
   },
   data () {
@@ -87,6 +92,7 @@ export default {
         status: dropTargetStatus.name,
         label: updatableQuery.label && updatableQuery.label.name
       })
+      // location.reload()
     }
   },
   watch: {
@@ -98,6 +104,12 @@ export default {
       this.$nextTick(() => {
         this.delayedDragging = false
       })
+    },
+    items: {
+      handler: (val, oldVal) => {
+        console.log(oldVal, val)
+      },
+      deep: true
     }
   }
 }

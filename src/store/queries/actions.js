@@ -16,11 +16,12 @@ export async function getQueriesData ({ dispatch, commit }) {
   }
 }
 /* Обновление query в сторе */
-export async function updateQueryStatus ({ dispatch, commit }, payload) {
+export async function updateQueryStatus ({ state, dispatch, commit }, payload) {
   const { queryId, status } = payload
   try {
     await dispatch('sendUpdateQueryStatusRequest', payload)
     commit('updateQuery', { queryId, status })
+    return state.queries
   } catch (err) {
     await dispatch('common/errorMessage', err, { root: true })
   }
@@ -41,7 +42,7 @@ export async function sendUpdateQueryStatusRequest ({ dispatch, commit }, payloa
 /* Получение одной заявки по id */
 export async function getQuery ({ dispatch, commit }, queryId) {
   try {
-    const { data } = await axiosInstance.get(`${constants.GET_LABEL_URL}/${queryId}`)
+    const { data } = await axiosInstance.get(`${constants.GET_LABEL_URL}/${queryId}/`)
     commit('setActiveQuery', data)
     return data
   } catch (err) {
