@@ -32,8 +32,8 @@ export async function authorize ({ dispatch, commit }, payload) {
 /* сообщение об ошибке */
 export function errorMessage (context, messageName) {
   const message = typeof messageName === 'string'
-    ? context.rootGetters.i18n.t(messageName)
-    : context.rootGetters.i18n.t(messageName.messageName, messageName.params)
+    ? messageName
+    : messageName.messageName
   console.debug('errorMessage messageName = ', messageName)
   console.debug('errorMessage message = ', message)
   Notify.create({

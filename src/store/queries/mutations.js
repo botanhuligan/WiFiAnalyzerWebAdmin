@@ -4,7 +4,12 @@ export function setQueries (state, queries) {
 }
 /* Получение данных */
 export function updateQuery (state, { queryId, status }) {
-  state.queries.find(query => query.id === queryId).status = status
+  console.debug(state.queries, queryId)
+  state.queries.forEach((query, index) => {
+    if (query.id === queryId) {
+      state.queries[index].status = status
+    }
+  })
 }
 /* Установка активного запроса */
 export function setActiveQuery (state, data) {

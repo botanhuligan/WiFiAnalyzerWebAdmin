@@ -81,16 +81,12 @@ export default {
       const idToUpdate = e.items[0].id
       const updatableQuery = this.items.find(item => item.id === +idToUpdate)
       /* FIXME достаем description и label из объекта, чтобы отправлять на сервер полный объект */
-      try {
-        await this.updateQueryStatus({
-          queryId: idToUpdate,
-          description: updatableQuery.description,
-          status: dropTargetStatus.name,
-          label: updatableQuery.label && updatableQuery.label.name
-        })
-      } catch (err) {
-        this.$router.push({ name: 'login' })
-      }
+      await this.updateQueryStatus({
+        queryId: idToUpdate,
+        description: updatableQuery.description,
+        status: dropTargetStatus.name,
+        label: updatableQuery.label && updatableQuery.label.name
+      })
     }
   },
   watch: {

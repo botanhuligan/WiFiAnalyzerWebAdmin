@@ -19,7 +19,7 @@ export async function getQueriesData ({ dispatch, commit }) {
 export async function updateQueryStatus ({ dispatch, commit }, payload) {
   const { queryId, status } = payload
   try {
-    dispatch('sendUpdateQueryStatusRequest', payload)
+    await dispatch('sendUpdateQueryStatusRequest', payload)
     commit('updateQuery', { queryId, status })
   } catch (err) {
     await dispatch('common/errorMessage', err, { root: true })
@@ -35,10 +35,6 @@ export async function sendUpdateQueryStatusRequest ({ dispatch, commit }, payloa
       { withCredentials: true }
     )
   } catch (err) {
-    if (err.response && err.response.status === 403) {
-      console.debug('error!!!', err.response.status)
-      commit('common/toggleLoginDialogShown', true, { root: true })
-    }
     await dispatch('common/errorMessage', err, { root: true })
   }
 }
