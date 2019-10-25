@@ -8,14 +8,14 @@
     >
       <template v-slot:body="props">
         <q-tr
-          :props="points"
+          :props="props"
         >
-          <q-td key="id" :props="points">
-            {{ props.row.id }}
+          <q-td key="id" :props="props">
+            {{ queryId }}
           </q-td>
-          <q-td key="mac" :props="points">{{ props.row.BSSID }}</q-td>
-          <q-td key="channels" :props="points">{{ props.row.capabilities.length || '-' }}</q-td>
-          <q-td key="cendor" :props="points">{{ props.row.vendor || '-' }}</q-td>
+          <q-td key="mac" :props="props">{{ props.row.BSSID }}</q-td>
+          <q-td key="channels" :props="props">{{ props.row.capabilities.length || '-' }}</q-td>
+          <q-td key="vendor" :props="props">{{ props.row.vendor || '-' }}</q-td>
         </q-tr>
       </template>
 
@@ -26,7 +26,7 @@
 <script>
 export default {
   name: 'WConnectionInfo',
-  props: ['points'],
+  props: ['points', 'queryId'],
   data () {
     return {
       columns: [

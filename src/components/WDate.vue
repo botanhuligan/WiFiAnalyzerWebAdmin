@@ -10,6 +10,9 @@ export default {
   props: ['timestamp'],
   computed: {
     formattedDate () {
+      if (this.timestamp instanceof Number !== true) {
+        return ''
+      }
       const date = new Date()
       date.setTime(parseInt(this.timestamp, 10))
       const day = date.getDay()
