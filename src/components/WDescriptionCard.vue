@@ -1,5 +1,5 @@
 <template>
-  <q-card>
+  <q-card flat>
     <div class="q-pa-md text-h6">Описание</div>
     <div class="q-pa-md">{{ info.description }}</div>
   </q-card>

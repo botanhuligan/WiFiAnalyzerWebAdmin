@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="row col-12 column q-pa-md">
-      <q-card class="row">
+      <q-card flat class="row">
         <div class="q-pa-md col-6">
           <WConnectionInfo :points="info.wifi_points && info.wifi_points.points" :queryId="queryId"/>
         </div>

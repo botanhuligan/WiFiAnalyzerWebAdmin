@@ -1,5 +1,5 @@
 <template>
-  <q-card>
+  <q-card flat>
     <q-card-section class="column">
       <div class="row text-caption">Номер заявки</div>
       <div class="row text-h6">{{ info.id }}</div>

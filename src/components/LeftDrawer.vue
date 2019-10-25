@@ -21,7 +21,7 @@
                 <div>
                   {{ menuItem.title }}
                   <q-badge v-if="!!menuItem.badge" transparent align="middle" color="grey" class="q-ml-md">
-                    {{ menuItem.badge }}
+                    {{ todoLength }}
                   </q-badge>
                 </div>
               </q-item-section>
@@ -41,11 +41,14 @@
 </template>
 
 <script>
-// import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 export default {
   name: 'LeftDrawer',
   computed: {
-    // ...mapState('common', ['leftDrawerOpen'])
+    ...mapGetters('queries', ['getQueries']),
+    todoLength () {
+      return this.getQueries.filter(query => query.status.name === 'to_do').length
+    }
   },
   data () {
     return {
