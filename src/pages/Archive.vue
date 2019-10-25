@@ -19,7 +19,7 @@ export default {
       return this.getQueries
     },
     droppedQueries () {
-      return this.queries.filter(query => query.status.name === constants.DROP_STATUS)
+      return this.queries.filter(query => query.status.name === constants.DROP_STATUS || query.status.name === constants.DONE_STATUS)
     }
   }
 }

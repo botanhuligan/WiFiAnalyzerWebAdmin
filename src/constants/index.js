@@ -1,6 +1,6 @@
 export const GET_QUERIES_URL = '/api/ticket/'
 export const GET_LABELS_URL = '/api/ticket/label_list/'
-export const GET_LABEL_URL = '/api/ticket/'
+export const GET_LABEL_URL = '/api/ticket'
 export const GET_STATUSES_URL = '/api/ticket/status_list/'
 export const UPDATE_QUERIES_URL = '/api/ticket'
 export const AUTH_URL = '/api/login/'
