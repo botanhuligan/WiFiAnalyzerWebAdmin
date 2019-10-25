@@ -1,7 +1,8 @@
 import axios from 'axios'
+import { getCookie } from '../../utils'
 import * as constants from '../../constants'
 const { BACKEND_URL } = process.env
-const axiosInstance = axios.create(BACKEND_URL)
+const axiosInstance = axios.create({ backendURL: BACKEND_URL, headers: { 'X-CSRFToken': getCookie('csrftoken') } })
 /* Получение заявок с сервера */
 export async function getQueriesData ({ dispatch, commit }) {
   try {
@@ -22,9 +23,6 @@ export async function updateQueryStatus ({ dispatch, commit }, payload) {
     commit('updateQuery', { queryId, status })
   } catch (err) {
     await dispatch('common/errorMessage', err, { root: true })
-    if (err.response && err.response.status) {
-      commit('common/toggleLoginDialogShown', true, { root: true })
-    }
   }
 }
 /* Отправка запроса на обновление query */

@@ -7,17 +7,17 @@ import * as constants from '../../constants'
 export function toggleLeftMenuOpened ({ dispatch, commit }) {
   commit('toggleLeftDrawerOpened')
 }
-/* Получение списка labels */
+/* Получение списка возможных категорий */
 export async function getLabelsData ({ dispatch, commit }) {
   const labels = axiosInstance.get(constants.GET_LABELS_URL)
   commit('setLabels', labels.data)
 }
-/* Получение списка labels */
+/* Получение списка возможных статусов */
 export async function getStatusesData ({ dispatch, commit }) {
   const statuses = axiosInstance.get(constants.GET_STATUSES_URL)
   commit('setStatuses', statuses.data)
 }
-/* Получение списка labels */
+/* Авторизация на странице входа */
 export async function authorize ({ dispatch, commit }, payload) {
   const { username, password } = payload
   const formData = new FormData()

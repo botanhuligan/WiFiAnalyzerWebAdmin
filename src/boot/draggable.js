@@ -1,5 +1,5 @@
 import VueDraggable from 'vue-draggable'
-// "async" is optional
+/* библиотека для drag and drop механизма на странице /dashboard */
 export default ({ Vue }) => {
   Vue.use(VueDraggable)
 }
