@@ -1,4 +1,5 @@
 export default {
   labels: [],
-  statuses: []
+  statuses: [],
+  loginDialogShown: false
 }

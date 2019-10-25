@@ -1,6 +1,6 @@
 // Configuration for your app
 // https://quasar.dev/quasar-cli/quasar-conf-js
-
+const envparser = require('./config/envparser')
 module.exports = function (ctx) {
   return {
     // app boot file (/src/boot)
@@ -64,6 +64,7 @@ module.exports = function (ctx) {
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
+      env: envparser(),
       scopeHoisting: true,
       vueRouterMode: 'history',
       // showProgress: false,
@@ -93,7 +94,7 @@ module.exports = function (ctx) {
       open: true, // opens browser window automatically
       proxy: {
         '/api/': {
-          target: 'http://172.30.14.153:8000/api/',
+          target: process.env.BACKEND_URL,
           pathRewrite: {
             '^/api': ''
           },

@@ -19,6 +19,11 @@ const routes = [
         component: () => import('pages/Archive.vue')
       },
       {
+        path: '/login',
+        name: 'login',
+        component: () => import('pages/Auth.vue')
+      },
+      {
         path: '/:number',
         component: () => import('pages/Query.vue'),
         props: (route) => ({ query: route.query.number })

@@ -7,3 +7,6 @@ export function setLabels (state, labels) {
 export function setStatuses (state, statuses) {
   state.statuses = statuses
 }
+export function toggleLoginDialogShown (state) {
+  state.loginDialogShown = !state.loginDialogShown
+}

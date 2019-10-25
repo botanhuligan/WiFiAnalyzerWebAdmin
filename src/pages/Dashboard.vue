@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { mapActions, mapState, mapGetters } from 'vuex'
+import { mapActions, mapState, mapGetters, mapMutations } from 'vuex'
 import WDashboardCard from '../components/WDashboardCard'
 export default {
   name: 'Dashboard',
@@ -46,9 +46,6 @@ export default {
     items () {
       return this.getQueries
     }
-  },
-  async mounted () {
-    console.debug('data on dashboard page', this.items)
   },
   data () {
     return {
@@ -78,15 +75,11 @@ export default {
   },
   methods: {
     ...mapActions('queries', ['updateQueryStatus']),
+    ...mapMutations('common', ['toggleLoginDialogShown']),
     async onDrop (e) {
-      console.log({
-        event: e,
-        el: this.$el
-      })
       const dropTargetStatus = await this.statuses.find(status => e.droptarget.className.indexOf(status.name) !== -1)
       const idToUpdate = e.items[0].id
       const updatableQuery = this.items.find(item => item.id === +idToUpdate)
-      console.debug(e.droptarget.className, dropTargetStatus, idToUpdate, updatableQuery)
       /* FIXME достаем description и label из объекта, чтобы отправлять на сервер полный объект */
       this.updateQueryStatus({
         queryId: idToUpdate,

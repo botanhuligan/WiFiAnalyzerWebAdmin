@@ -19,8 +19,9 @@
     </div>
     <div class="row col-12 column q-pa-md">
       <q-card class="row">
-        <div class="q-pa-md col-6"><WConnectionInfo :info="info"/></div>
-        <div class="q-pa-md col">Тепловая карта</div>
+        <div class="q-pa-md col-6">
+          <WConnectionInfo :points="info.wifi_points && info.wifi_points.points"/>
+        </div>
       </q-card>
     </div>
   </div>
@@ -51,12 +52,7 @@ export default {
   // props: ['info'],
   data () {
     return {
-      info: {
-        id: '1',
-        description: 'Pariatur magna proident occaecat duis aute amet magna. Reprehenderit velit tempor veniam Lorem. Consequat nulla irure labore tempor cupidatat. Eu amet labore magna deserunt nulla non tempor culpa nulla velit elit id. Consectetur esse nostrud amet exercitation minim nisi. Amet labore voluptate nisi excepteur enim et consequat sunt consequat nulla pariatur dolor fugiat consectetur. Laborum id mollit esse veniam dolor culpa anim incididunt. Non nisi reprehenderit dolore ullamco non ea occaecat irure sit sint cillum irure mollit. Velit nostrud amet consequat minim cupidatat consectetur excepteur eiusmod labore labore proident minim. Qui velit velit amet nisi. Commodo duis exercitation velit consectetur tempor ullamco.',
-        sender: 'La la la',
-        category: 'warning'
-      }
+      info: {}
     }
   },
   methods: {
